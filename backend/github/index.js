@@ -10,7 +10,8 @@ const gitHubUsersResponse = await axios.get(
     { 
       provider: 'github',
       id: user.id, 
-      username: user.login 
+      username: user.login,
+      avatar_url: user.avatar_url,
     }
   ));
 }
