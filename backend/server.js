@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
-const axios = require("axios");
+
+const github = require("./github")
 
 const app = express();
 app.use(helmet());
@@ -12,21 +13,7 @@ const port = 3001;
 
 app.get("/api/search", async (req, res) => {
   try {
-    const username = req.query.username;
-
-    // Search in GitHub
-    const gitHubUsersResponse = await axios.get(
-      `https://api.github.com/search/users?q=${username}`
-    );
-
-    const gitHubUsers = gitHubUsersResponse.data.items.map((user) => (
-      { 
-        provider: 'github',
-        id: user.id, 
-        username: user.login 
-      }
-    ));
-
+    const gitHubUsers = await github.searchUser(req.query.username);
     const allUsers = [...gitHubUsers];
     res.json({ users: allUsers });
   } catch (error) {
