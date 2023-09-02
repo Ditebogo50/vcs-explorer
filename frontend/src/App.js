@@ -1,4 +1,3 @@
-import axios from "axios";
 import Search from "./search/Search";
 import Header from "./layout/Header";
 

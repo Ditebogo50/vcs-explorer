@@ -22,6 +22,16 @@ app.get("/api/search", async (req, res) => {
   }
 });
 
+app.get("/api/user/:username", async (req, res) => {
+  try {
+    const githubUser = await github.getUser(req.params.username);
+    res.json(githubUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
