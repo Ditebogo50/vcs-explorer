@@ -1,13 +1,13 @@
+// Import necessary dependencies
 import { useLoaderData, Link } from "react-router-dom";
 import axios from "axios";
 
 import Header from "../layout/Header";
 
+// Function to fetch user profile data from the API
 const getUserProfile = async (username) => {
   try {
-    const response = await axios.get(
-      `http://localhost:3001/api/user/${username}`
-    );
+    const response = await axios.get(`http://localhost:3001/api/user/${username}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -15,11 +15,10 @@ const getUserProfile = async (username) => {
   }
 };
 
+// Function to fetch user repositories data from the API
 const getUserRepos = async (username) => {
   try {
-    const response = await axios.get(
-      `http://localhost:3001/api/repos/${username}`
-    );
+    const response = await axios.get(`http://localhost:3001/api/repos/${username}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -27,6 +26,7 @@ const getUserRepos = async (username) => {
   }
 };
 
+// Loader function to fetch user profile and repositories data before rendering the Profile component
 export const loader = async ({ params }) => {
   const { username } = params;
   const profile = await getUserProfile(username);
@@ -35,6 +35,7 @@ export const loader = async ({ params }) => {
   return results;
 };
 
+// Function to render a single repository item
 const renderRepo = (repo, index) => (
   <li
     className="flex place-items-center border-b border-b-slate-100 py-2"
@@ -46,11 +47,12 @@ const renderRepo = (repo, index) => (
   </li>
 );
 
+// Component to render user profile summary and repositories
 const Summary = ({ profile, repos }) => {
   return (
     <div className="p-4">
       <div className="flex items-center">
-        <img className="w-20 h-20 rounded-full m-4" src={profile.avatar_url} />
+        <img className="w-20 h-20 rounded-full m-4" src={profile.avatar_url} alt={profile.name} />
         <div className="flex-row">
           <h2 className="text-lg font-bold">{profile.name}</h2>
           <h3 className="text-sm font-thin text-gray-400">
@@ -67,6 +69,7 @@ const Summary = ({ profile, repos }) => {
   );
 };
 
+// Profile component
 const Profile = () => {
   const { profile, repos } = useLoaderData();
 
@@ -78,4 +81,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Profile; // Export the Profile component as the default export

@@ -1,8 +1,10 @@
+// Import necessary dependencies
 import { useLoaderData, Link } from "react-router-dom";
 import axios from "axios";
 
 import Header from "../layout/Header";
 
+// Function to get user's repository
 const getUserRepo = async (username, reponame) => {
   try {
     const response = await axios.get(
@@ -15,6 +17,7 @@ const getUserRepo = async (username, reponame) => {
   }
 };
 
+// Function to get repository's commits
 const getCommits = async (username, reponame) => {
   try {
     const response = await axios.get(
@@ -27,14 +30,21 @@ const getCommits = async (username, reponame) => {
   }
 };
 
+// Loader function to fetch data for the component
 export const loader = async ({ params }) => {
   const { username, reponame } = params;
+
+  // Fetch user's repository
   const repo = await getUserRepo(username, reponame);
+
+  // Fetch repository's commits
   const commits = await getCommits(username, reponame);
+
   const results = { repo, commits };
   return results;
 };
 
+// Function to render a commit
 const renderCommit = (commit, index) => (
   <div key={index} className="p-2 flex">
     <img className="w-10 h-10 rounded-full" src={commit.committer.avatar_url} />
@@ -45,6 +55,7 @@ const renderCommit = (commit, index) => (
   </div>
 );
 
+// Component to render the repository summary
 const RepoSummary = ({ repo, commits }) => {
   return (
     <div className="p-4">
@@ -55,6 +66,7 @@ const RepoSummary = ({ repo, commits }) => {
   );
 };
 
+// Component for the repository page
 const Repo = () => {
   const { repo, commits } = useLoaderData();
   console.log(repo);
@@ -68,4 +80,4 @@ const Repo = () => {
   );
 };
 
-export default Repo;
+export default Repo; // Export the Repo component as the default export
