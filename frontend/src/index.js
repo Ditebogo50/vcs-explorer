@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import Profile, {loader as userLoader } from './user/Profile';
+import Repo, {loader as repoLoader} from './repo/Repo';
 import reportWebVitals from "./reportWebVitals";
 
 const router = createBrowserRouter([
@@ -16,6 +17,11 @@ const router = createBrowserRouter([
     path: '/user/:username',
     loader: userLoader,
     element: <Profile />
+  },
+  {
+    path: '/repos/:username/:reponame',
+    loader: repoLoader,
+    element: <Repo />
   }
 ]);
 

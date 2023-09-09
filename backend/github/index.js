@@ -1,7 +1,6 @@
 const axios = require("axios");
 
 const searchUser = async (username) => {
-  // Search in GitHub
   const gitHubUsersResponse = await axios.get(
     `https://api.github.com/search/users?q=${username}`
   );
@@ -15,7 +14,6 @@ const searchUser = async (username) => {
 };
 
 const getUser = async (username) => {
-  // Get user from Github when we have the username
   const response = await axios.get(`https://api.github.com/users/${username}`);
   const user = response.data;
   return {
@@ -25,10 +23,36 @@ const getUser = async (username) => {
     username: user.login,
     avatar_url: user.avatar_url,
     description: user.bio,
+    repos_url: user.repos_url,
   };
+};
+
+const getRepos = async (username) => {
+  const response = await axios.get(
+    `https://api.github.com/users/${username}/repos`
+  );
+  return response.data;
+};
+
+const getRepo = async (username, reponame) => {
+  const response = await axios.get(
+    `https://api.github.com/repos/${username}/${reponame}`
+  );
+  return response.data;
+}
+
+const getCommits = async (username, repo) => {
+  const response = await axios.get(
+    `https://api.github.com/repos/${username}/${repo}/commits?per_page=5  `
+  );
+  return response.data;
+ 
 };
 
 module.exports = {
   searchUser,
   getUser,
+  getRepos,
+  getRepo,
+  getCommits,
 };

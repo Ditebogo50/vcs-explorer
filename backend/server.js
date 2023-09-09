@@ -32,6 +32,36 @@ app.get("/api/user/:username", async (req, res) => {
   }
 });
 
+app.get("/api/repos/:username", async (req, res) => {
+  try {
+    const githubRepos = await github.getRepos(req.params.username);
+    res.json(githubRepos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+app.get("/api/repos/:username/:reponame", async (req, res) => {
+  try {
+    const githubRepo = await github.getRepo(req.params.username, req.params.reponame);
+    res.json(githubRepo);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+app.get("/api/repos/:username/:repo/commits", async (req, res) => {
+  try {
+    const githubCommits = await github.getCommits(req.params.username, req.params.repo);
+    res.json(githubCommits);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
